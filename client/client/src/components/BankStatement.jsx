@@ -12,7 +12,7 @@ const BankStatement = ({ bankId, onClose }) => {
   const fetchStatement = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5001/banks/${bankId}/transactions?page=${page}&limit=${limit}`
+        `https://tesseractcreations-1.onrender.com/banks/${bankId}/transactions?page=${page}&limit=${limit}`
       );
 
       const { accountName, bankName, transactions, totalPages } = res.data;
