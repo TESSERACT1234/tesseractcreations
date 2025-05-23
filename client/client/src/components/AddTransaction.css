@@ -1,0 +1,101 @@
+.add-transaction {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 105, 92, 0.2);
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+  }
+  
+  .add-transaction h2 {
+    margin-bottom: 20px;
+    color: #2e7d32;
+    text-align: center;
+  }
+  
+  .add-transaction form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .add-transaction input,
+  .add-transaction select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #b2dfdb;
+    border-radius: 6px;
+  }
+  
+  .add-transaction button {
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .add-transaction button:hover {
+    background: #1b5e20;
+  }
+  
+  .switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Toggle switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2e7d32;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .add-transaction {
+      padding: 20px;
+    }
+  }
+  

@@ -1,0 +1,34 @@
+/* src/components/GlobalSearch.css */
+.global-search {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .global-search input {
+    padding: 10px;
+    width: 300px;
+    margin-right: 10px;
+  }
+  
+  .global-search button {
+    padding: 10px 15px;
+  }
+  
+  .search-results {
+    margin-top: 20px;
+  }
+  
+  .search-results h3 {
+    margin-top: 20px;
+  }
+  
+  .search-results ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .search-results li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
