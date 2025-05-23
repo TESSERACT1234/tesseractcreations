@@ -16,7 +16,7 @@ const Reports = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 10;
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001";
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://tesseractcreations-1.onrender.com";
   const printRef = useRef();
 
   useEffect(() => {
