@@ -16,7 +16,7 @@ const CreateAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5001/accounts", form);
+    await axios.post("https://tesseractcreations-1.onrender.com/accounts", form);
     alert("Account Created Successfully");
     setForm({ name: "", contact: "", address: "", accountType: "Customers" });
   };
