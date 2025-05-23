@@ -15,7 +15,7 @@ const AccountTransactions = ({ accountName, onBack }) => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/transactions/account/${accountName}`);
+      const res = await axios.get(`https://tesseractcreations-1.onrender.com/transactions/account/${accountName}`);
       setTransactions(res.data);
     } catch (err) {
       console.error("Error fetching transactions:", err);
@@ -29,7 +29,7 @@ const AccountTransactions = ({ accountName, onBack }) => {
 
   const handleSave = async (id) => {
     try {
-      await axios.put(`http://localhost:5001/transactions/${id}`, editData);
+      await axios.put(`https://tesseractcreations-1.onrender.com/transactions/${id}`, editData);
       setEditingId(null);
       fetchTransactions();
     } catch (err) {
@@ -40,7 +40,7 @@ const AccountTransactions = ({ accountName, onBack }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this transaction?")) {
       try {
-        await axios.delete(`http://localhost:5001/transactions/${id}`);
+        await axios.delete(`https://tesseractcreations-1.onrender.com/transactions/${id}`);
         fetchTransactions();
       } catch (err) {
         console.error("Error deleting transaction:", err);
