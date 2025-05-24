@@ -74,7 +74,7 @@ const DocsReleases = () => {
             Registered Office: 144 Gandhi Chowk, Gangardi, Garbada, Dahod, Gujarat.<br/>
             Factory: 44B Suncity Industrial Park, Haripura, Savli, Vadodara, Gujarat.<br/><br/>
             Date: ${formData.date}<br/>
-            CIN: U12345MH2022PTC123456
+            CIN: U46610GJ2023PTC144557
           </div>
           <div class="logo">
             <img src="${logo}" alt="Logo" />
