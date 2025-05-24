@@ -34,7 +34,7 @@ const AddTransaction = () => {
 
   useEffect(() => {
     axios
-      .get("`https://tesseractcreations-1.onrender.com/banks")
+      .get("https://tesseractcreations-1.onrender.com/banks")
       .then((res) => setBanks(res.data))
       .catch(() => setBanks([]));
   }, []);
