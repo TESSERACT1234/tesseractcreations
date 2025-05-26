@@ -44,7 +44,7 @@ function App() {
 
     const fetchResults = async () => {
       try {
-        const res = await fetch(`http://localhost:5001/search?q=${encodeURIComponent(searchQuery)}`);
+        const res = await fetch(`https://tesseractcreations-1.onrender.com/search?q=${encodeURIComponent(searchQuery)}`);
         const data = await res.json();
         setSearchResults(data);
         setShowPopup(true);

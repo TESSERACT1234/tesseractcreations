@@ -1,121 +1,133 @@
 /* Container Styling */
 .account-transactions {
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8fbff;
-    color: #333;
-    min-height: 100vh;
-  }
-  
-  /* Back Button */
-  .back-button {
-    margin-bottom: 1.5rem;
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .back-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Heading */
-  .account-transactions h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    color: #222;
-  }
-  
-  /* Table Styling */
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 1rem;
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-  }
-  
-  /* Table Headers */
-  th {
-    background-color: #e9f1fb;
-    color: #333;
-    padding: 0.8rem 1rem;
-    font-weight: 600;
-    text-align: left;
-    border-bottom: 2px solid #d6e4f0;
-  }
-  
-  /* Table Cells */
-  td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #f1f1f1;
-    vertical-align: middle;
-  }
-  
-  /* Table Row Hover */
-  tbody tr:hover {
-    background-color: #f4f9ff;
-  }
-  
-  /* Buttons in Actions */
-  button {
-    margin-right: 5px;
-    padding: 6px 10px;
-    font-size: 0.85rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  /* Action Buttons Styling */
-  button:hover {
-    opacity: 0.9;
-  }
-  
-  button:nth-child(1) {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  button:nth-child(2) {
-    background-color: #ffc107;
-    color: #333;
-  }
-  
-  button:nth-child(3),
-  button:nth-child(4) {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  /* Input Fields in Edit Mode */
-  input {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    background-color: #f9f9f9;
-  }
-  
-  input:focus {
-    outline: none;
-    border-color: #007bff;
-    background-color: #fff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
-  }
-  
-  /* No transactions message */
-  .account-transactions p {
-    font-style: italic;
-    color: #777;
-  }
-  
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8fbff;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Back Button */
+.back-button {
+  margin-bottom: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
+
+/* Heading */
+.account-transactions h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Headers */
+th {
+  background-color: #e9f1fb;
+  color: #333;
+  padding: 0.8rem 1rem;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid #d6e4f0;
+}
+
+/* Table Cells */
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f1f1;
+  vertical-align: middle;
+}
+
+/* Table Row Hover */
+tbody tr:hover {
+  background-color: #f4f9ff;
+}
+
+/* Buttons in Actions */
+button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Action Buttons Styling */
+button:hover {
+  opacity: 0.9;
+}
+
+button:nth-child(1) {
+  background-color: #28a745;
+  color: white;
+}
+
+button:nth-child(2) {
+  background-color: #ffc107;
+  color: #333;
+}
+
+button:nth-child(3),
+button:nth-child(4) {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Input Fields in Edit Mode */
+input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: #f9f9f9;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* No transactions message */
+.account-transactions p {
+  font-style: italic;
+  color: #777;
+}
+
+.totals {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

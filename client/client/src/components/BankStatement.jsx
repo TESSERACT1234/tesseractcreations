@@ -9,54 +9,64 @@ const BankStatement = ({ bankId, onClose }) => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10;
 
+  const calculateBalance = (txns) => {
+    if (!txns || txns.length === 0) return 0;
+    return txns.reduce((acc, txn) => {
+      const amount = Number(txn.amount) || 0;
+      if (txn.transactionType === "Credit") {
+        return acc + amount;
+      } else {
+        return acc - amount;
+      }
+    }, 0);
+  };
+
   const fetchStatement = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5001/banks/${bankId}/transactions?page=${page}&limit=${limit}`
+        `https://tesseractcreations-1.onrender.com/banks/${bankId}/transactions?page=${page}&limit=${limit}`
       );
-
-      const { accountName, bankName, transactions, totalPages } = res.data;
-
+  
+      const { accountName, bankName, transactions, totalPages, computedBalance } = res.data;
+  
+      setTransactions(transactions || []);
+      setTotalPages(totalPages || 1);
+  
       setStatement({
         accountName,
         bankName,
+        computedBalance: computedBalance || 0,
       });
-
-      setTransactions(transactions || []);
-      setTotalPages(totalPages || 1);
     } catch (error) {
       console.error("Error fetching bank statement:", error);
       alert("Error fetching bank statement");
     }
   };
+  
 
   useEffect(() => {
     fetchStatement();
   }, [bankId, page]);
 
-  // Calculate dynamic balance
-  const totalCredits = transactions
-    .filter(txn => txn.transactionType === "Credit")
-    .reduce((sum, txn) => sum + Number(txn.amount), 0);
-
-  const totalDebits = transactions
-    .filter(txn => txn.transactionType === "Debit")
-    .reduce((sum, txn) => sum + Number(txn.amount), 0);
-
-  const computedBalance = totalCredits - totalDebits;
-
   if (!statement) return <div>Loading...</div>;
+
+  const formattedBalance =
+    typeof statement.computedBalance === "number"
+      ? statement.computedBalance.toLocaleString("en-IN", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      : "0.00";
 
   return (
     <div className="bank-statement">
-      <button className="close-btn" onClick={onClose}>Close</button>
-      <h3>{statement.accountName} - {statement.bankName}</h3>
-      <h4>
-        Computed Balance: ₹{computedBalance.toLocaleString("en-IN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </h4>
+      <button className="close-btn" onClick={onClose}>
+        Close
+      </button>
+      <h3>
+        {statement.accountName} - {statement.bankName}
+      </h3>
+      <h4>Computed Balance: ₹{formattedBalance}</h4>
 
       <table>
         <thead>
@@ -70,30 +80,42 @@ const BankStatement = ({ bankId, onClose }) => {
         <tbody>
           {transactions.length > 0 ? (
             transactions.map((txn) => (
-              <tr key={txn._id || `${txn.date}-${txn.amount}-${txn.accountHolder}`}>
-                <td>{new Date(txn.date).toLocaleDateString()}</td>
-                <td>{txn.accountHolder}</td>
-                <td>{txn.transactionType}</td>
-                <td className={txn.transactionType === "Credit" ? "credit" : "debit"}>
-                  ₹{Number(txn.amount).toFixed(2)}
+              <tr
+                key={txn._id || `${txn.date}-${txn.amount}-${txn.accountHolder}`}
+              >
+                <td>{txn.date ? new Date(txn.date).toLocaleDateString() : "-"}</td>
+                <td>{txn.accountHolder || "-"}</td>
+                <td>{txn.transactionType || "-"}</td>
+                <td
+                  className={
+                    txn.transactionType === "Credit" ? "credit" : "debit"
+                  }
+                >
+                  ₹{Number(txn.amount ?? 0).toFixed(2)}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>No transactions found</td>
+              <td colSpan="4" style={{ textAlign: "center" }}>
+                No transactions found
+              </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
       <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
           ⬅️ Prev
         </button>
-        <span>Page {page} of {totalPages}</span>
-        <button disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>
+        <span>
+          Page {page} of {totalPages}
+        </span>
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
           Next ➡️
         </button>
       </div>

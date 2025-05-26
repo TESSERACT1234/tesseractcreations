@@ -11,7 +11,7 @@ const AccountList = ({ type }) => {
     setSelectedAccount(null); // reset selected account when type changes
     const fetchAccounts = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/accounts/type/${type}`);
+        const res = await axios.get(`https://tesseractcreations-1.onrender.com/accounts/type/${type}`);
         setAccounts(res.data);
       } catch (err) {
         console.error("Error fetching accounts:", err);

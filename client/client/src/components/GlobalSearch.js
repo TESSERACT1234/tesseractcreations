@@ -12,7 +12,7 @@ const GlobalSearch = () => {
     if (!query.trim()) return;
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5001/search?q=${encodeURIComponent(query)}`);
+      const res = await axios.get(`https://tesseractcreations-1.onrender.com/search?q=${encodeURIComponent(query)}`);
       setResults(res.data);
     } catch (err) {
       console.error("Search error:", err);

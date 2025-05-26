@@ -1,17 +1,17 @@
 // ====== IMPORT REQUIRED PACKAGES ======
 const express = require("express"); // Web framework for Node.js
-const mongoose = require("mongoose"); // MongoDB ODM (Object Data Modeling)
-const cors = require("cors"); // Enables Cross-Origin Resource Sharing
-require("dotenv").config(); // Load environment variables from .env file
+const mongoose = require("mongoose"); // MongoDB ODM
+const cors = require("cors"); // Enable CORS
+require("dotenv").config(); // Load env variables
 
 // ====== INITIALIZE EXPRESS APP ======
 const app = express();
 
 // ====== MIDDLEWARE ======
-app.use(cors()); // Allow requests from any origin
-app.use(express.json()); // Parse incoming JSON requests
+app.use(cors());
+app.use(express.json());
 
-// ====== CONNECT TO MONGODB DATABASE ======
+// ====== CONNECT TO MONGODB ======
 mongoose
     .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
@@ -24,74 +24,66 @@ mongoose
 // ===================== SCHEMAS ======================= //
 // ===================================================== //
 
-// ====== ACCOUNT SCHEMA ====== //
+// ====== Account Schema ====== //
 const accountSchema = new mongoose.Schema({
     name: { type: String, required: true },
     contact: { type: String },
     address: { type: String },
     accountType: {
         type: String,
-        enum: ["Customers", "Feedstock Vendors", "Regular", "Employees"], // Only allow these types
+        enum: ["Customers", "Feedstock Vendors", "Regular", "Employees"],
         required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+    createdAt: { type: Date, default: Date.now },
 });
-const Account = mongoose.model("Account", accountSchema); // Create Account model
+const Account = mongoose.model("Account", accountSchema);
 
-// ====== TRANSACTION SCHEMA ====== //
-const transactionSchema = new mongoose.Schema({
-    type: {
-        type: String,
-        enum: ["Customers", "Feedstock Vendors", "Regular", "Employees"], // Related to account type
-        required: true,
-    },
-    accountHolder: { type: String, required: true }, // Name of person/organization
-    date: { type: Date, required: true },
-    amount: { type: Number, required: true, min: 0 }, // Cannot be negative
-    transactionType: {
-        type: String,
-        enum: ["Credit", "Debit"], // Either credit or debit
-        required: true,
-    },
-    product: { type: String, default: null }, // Optional product name
-    volume: { type: Number, default: null }, // Optional volume
-    bankId: { type: mongoose.Schema.Types.ObjectId, ref: "Bank", required: true }, // Reference to Bank
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
-const Transaction = mongoose.model("Transaction", transactionSchema); // Create Transaction model
-
-// ====== BANK SCHEMA ====== //
+// ====== Bank Schema ====== //
 const bankSchema = new mongoose.Schema({
     bankName: { type: String, required: true },
-    bankLogo: { type: String, required: true }, // URL to logo
+    bankLogo: { type: String, required: true },
     accountNumber: { type: String, required: true },
     accountName: { type: String, required: true },
     accountType: { type: String, required: true },
-    balance: { type: Number, default: 0 }, // Initial balance
+    balance: { type: Number, default: 0 },
 });
-const Bank = mongoose.model("Bank", bankSchema); // Create Bank model
+const Bank = mongoose.model("Bank", bankSchema);
+
+// ====== Transaction Schema ====== //
+const transactionSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ["Customers", "Feedstock Vendors", "Regular", "Employees"],
+        required: true,
+    },
+    accountHolder: { type: String, required: true },
+    date: { type: Date, required: true },
+    amount: { type: Number, required: true, min: 0 },
+    transactionType: {
+        type: String,
+        enum: ["Credit", "Debit"],
+        required: true,
+    },
+    product: { type: String, default: null },
+    volume: { type: Number, default: null },
+    bankId: { type: mongoose.Schema.Types.ObjectId, ref: "Bank", required: true },
+    createdAt: { type: Date, default: Date.now },
+});
+const Transaction = mongoose.model("Transaction", transactionSchema);
 
 // ===================================================== //
-// ==================== BANK ROUTES ==================== //
+// ===================== ROUTES ======================== //
 // ===================================================== //
 
-// Get all banks
+// ====== BANK ROUTES ====== //
 app.get("/banks", async (req, res) => {
     try {
         const banks = await Bank.find();
         res.json(banks);
-    } catch (err) {
+    } catch {
         res.status(500).json({ error: "❌ Failed to fetch banks" });
     }
 });
-
-// Add a new bank
 app.post("/banks", async (req, res) => {
     try {
         const newBank = new Bank(req.body);
@@ -102,11 +94,7 @@ app.post("/banks", async (req, res) => {
     }
 });
 
-// ===================================================== //
-// ================== ACCOUNT ROUTES =================== //
-// ===================================================== //
-
-// Create a new account
+// ====== ACCOUNT ROUTES ====== //
 app.post("/accounts", async (req, res) => {
     try {
         const account = new Account(req.body);
@@ -116,27 +104,21 @@ app.post("/accounts", async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
-
-// Get all accounts by account type
 app.get("/accounts/type/:type", async (req, res) => {
+    const validTypes = ["Customers", "Feedstock Vendors", "Regular", "Employees"];
+    const { type } = req.params;
+    if (!validTypes.includes(type)) {
+        return res.status(400).json({ error: "Invalid account type" });
+    }
     try {
-        const { type } = req.params;
-        const validTypes = ["Customers", "Feedstock Vendors", "Regular", "Employees"];
-        if (!validTypes.includes(type)) {
-            return res.status(400).json({ error: "Invalid account type" });
-        }
         const accounts = await Account.find({ accountType: type });
         res.json(accounts);
     } catch (err) {
-        res.status(500).json({ error: "Failed to fetch accounts", details: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
-// ===================================================== //
-// ================ TRANSACTION ROUTES ================= //
-// ===================================================== //
-
-// Add a transaction (with balance update)
+// ====== TRANSACTION ROUTES ====== //
 app.post("/transactions", async (req, res) => {
     try {
         const transaction = new Transaction(req.body);
@@ -145,22 +127,17 @@ app.post("/transactions", async (req, res) => {
         const bank = await Bank.findById(req.body.bankId);
         if (!bank) return res.status(404).send("Bank not found");
 
-        // Adjust bank balance
         const amount = req.body.amount;
-        if (req.body.transactionType === "Credit") {
-            bank.balance += amount;
-        } else {
-            bank.balance -= amount;
-        }
-        await bank.save();
+        req.body.transactionType === "Credit"
+            ? (bank.balance += amount)
+            : (bank.balance -= amount);
 
-        res.status(201).send(transaction);
+        await bank.save();
+        res.status(201).json(transaction);
     } catch (err) {
         res.status(500).send("Error saving transaction");
     }
 });
-
-// Get all transactions
 app.get("/transactions", async (req, res) => {
     try {
         const transactions = await Transaction.find().sort({ date: -1 });
@@ -169,46 +146,48 @@ app.get("/transactions", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-// Get transactions for a specific account holder
 app.get("/transactions/account/:accountHolder", async (req, res) => {
     try {
-        const { accountHolder } = req.params;
-        const transactions = await Transaction.find({ accountHolder }).sort({ date: -1 });
+        const transactions = await Transaction.find({ accountHolder: req.params.accountHolder }).sort({ date: -1 });
         res.json(transactions);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
-
-// Get transactions by bank with pagination
 app.get("/banks/:id/transactions", async (req, res) => {
+    const { page = 1, limit = 15 } = req.query;
+    const bankId = req.params.id;
+  
     try {
-        const { page = 1, limit = 15 } = req.query;
-        const bankId = req.params.id;
-
-        const bank = await Bank.findById(bankId);
-        if (!bank) return res.status(404).send("Bank not found");
-
-        const total = await Transaction.countDocuments({ bankId });
-        const transactions = await Transaction.find({ bankId })
-            .sort({ date: -1 })
-            .skip((page - 1) * limit)
-            .limit(parseInt(limit));
-
-        res.send({
-            bankName: bank.bankName,
-            accountName: bank.accountName,
-            balance: bank.balance,
-            transactions,
-            totalPages: Math.ceil(total / limit),
-        });
+      const bank = await Bank.findById(bankId);
+      if (!bank) return res.status(404).send("Bank not found");
+  
+      const total = await Transaction.countDocuments({ bankId });
+      const transactions = await Transaction.find({ bankId })
+        .sort({ date: -1 })
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit));
+  
+      // Calculate balance from all transactions for this bank (not just paginated ones)
+      const allTransactions = await Transaction.find({ bankId });
+      const computedBalance = allTransactions.reduce((acc, txn) => {
+        if (txn.transactionType === "Credit") return acc + txn.amount;
+        else return acc - txn.amount;
+      }, 0);
+  
+      res.send({
+        bankName: bank.bankName,
+        accountName: bank.accountName,
+        balance: bank.balance,  // existing field if you want
+        transactions,
+        totalPages: Math.ceil(total / limit),
+        computedBalance,
+      });
     } catch {
-        res.status(500).send("Error fetching bank transactions");
+      res.status(500).send("Error fetching bank transactions");
     }
-});
-
-// Update an existing transaction
+  });
+  
 app.put("/transactions/:id", async (req, res) => {
     try {
         const updated = await Transaction.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -218,8 +197,6 @@ app.put("/transactions/:id", async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
-
-// Delete a transaction
 app.delete("/transactions/:id", async (req, res) => {
     try {
         const deleted = await Transaction.findByIdAndDelete(req.params.id);
@@ -229,44 +206,32 @@ app.delete("/transactions/:id", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
-// Generate a filtered report of transactions
 app.get("/report/transactions", async (req, res) => {
     try {
         const { accountHolder, startDate, endDate } = req.query;
-
         if (!accountHolder) {
             return res.status(400).json({ error: "Account holder is required" });
         }
-
         const query = { accountHolder };
-
         if (startDate && endDate) {
             query.date = {
                 $gte: new Date(startDate),
                 $lte: new Date(endDate),
             };
         }
-
         const transactions = await Transaction.find(query).sort({ date: 1 });
-
         res.status(200).json(transactions);
     } catch (err) {
         res.status(500).json({ error: "❌ Error fetching report transactions", details: err.message });
     }
 });
 
-// ===================================================== //
-// =================== SEARCH ROUTE ==================== //
-// ===================================================== //
-
-// Search for any keyword across accounts, transactions, and banks
+// ====== SEARCH ROUTE ====== //
 app.get("/search", async (req, res) => {
     const query = req.query.q?.trim().toLowerCase();
     if (!query) return res.json({ accounts: [], transactions: [], banks: [] });
 
-    const isNumeric = !isNaN(query); // Check if query is a number
-
+    const isNumeric = !isNaN(query);
     try {
         const accounts = await Account.find({
             $or: [
@@ -275,7 +240,6 @@ app.get("/search", async (req, res) => {
                 { accountType: new RegExp(query, "i") },
             ],
         });
-
         const transactions = await Transaction.find({
             $or: [
                 { accountHolder: new RegExp(query, "i") },
@@ -283,7 +247,6 @@ app.get("/search", async (req, res) => {
                 ...(isNumeric ? [{ amount: Number(query) }] : []),
             ],
         });
-
         const banks = await Bank.find({
             $or: [
                 { bankName: new RegExp(query, "i") },
@@ -292,7 +255,6 @@ app.get("/search", async (req, res) => {
                 ...(isNumeric ? [{ balance: Number(query) }] : []),
             ],
         });
-
         res.json({ accounts, transactions, banks });
     } catch (err) {
         console.error(err);
@@ -300,17 +262,13 @@ app.get("/search", async (req, res) => {
     }
 });
 
-// ===================================================== //
-// =================== DEFAULT ROUTE =================== //
-// ===================================================== //
-
-// Health check/default route
+// ====== DEFAULT ROUTE ====== //
 app.get("/", (req, res) => {
     res.send("🚀 API is running");
 });
 
-// ===================================================== //
-// ==================== START SERVER =================== //
-// ===================================================== //
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// ====== START SERVER ====== //
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`✅ Server started on http://localhost:${PORT}`);
+});

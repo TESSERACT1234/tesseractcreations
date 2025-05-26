@@ -28,7 +28,7 @@ const [customDates, setCustomDates] = useState({ start: "", end: "" });
   }, []);
 
   const fetchBanks = async () => {
-    const res = await axios.get("http://localhost:5001/banks");
+    const res = await axios.get("https://tesseractcreations-1.onrender.com/banks");
     setBankData(res.data);
   };
 
@@ -38,7 +38,7 @@ const [customDates, setCustomDates] = useState({ start: "", end: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5001/banks", form);
+    await axios.post("https://tesseractcreations-1.onrender.com/banks", form);
     fetchBanks();
     setForm({ bankName: "", bankLogo: "", accountNumber: "", accountName: "", accountType: "" });
     setShowForm(false);

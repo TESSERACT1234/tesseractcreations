@@ -1,130 +1,43 @@
 .bank-statement {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .bank-statement h3,
-  .bank-statement h4 {
-    margin-bottom: 10px;
-  }
-  
-  .bank-statement table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .bank-statement th,
-  .bank-statement td {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-  }
-  
-  .bank-statement .credit {
-    color: green;
-  }
-  
-  .bank-statement .debit {
-    color: red;
-  }
-  
-  .close-btn {
-    float: right;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .pagination {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .pagination button {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .pagination span {
-    font-weight: bold;
-  }
-  
-  .bank-statement {
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    max-width: 1000px;
-    margin: auto;
-    font-family: sans-serif;
-  }
-  
-  .close-btn {
-    float: right;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-    background: crimson;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  .credit {
-    color: green;
-  }
-  
-  .debit {
-    color: red;
-  }
-  
-  .filter-section {
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-  .summary {
-    margin-top: 20px;
-    padding: 10px;
-    border-top: 2px solid #eee;
-    font-weight: bold;
-  }
-  
-  @media print {
-    .close-btn, .filter-section {
-      display: none;
-    }
-  
-    .bank-statement {
-      border: none;
-      box-shadow: none;
-      padding: 0;
-    }
-  }
-  
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+  float: right;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.credit {
+  color: green;
+}
+
+.debit {
+  color: red;
+}
+
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

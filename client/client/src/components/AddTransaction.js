@@ -23,7 +23,7 @@ const AddTransaction = () => {
   useEffect(() => {
     if (selectedType) {
       axios
-        .get(`http://localhost:5001/accounts/type/${selectedType}`)
+        .get(`https://tesseractcreations-1.onrender.com/accounts/type/${selectedType}`)
         .then((res) => setAccounts(res.data))
         .catch(() => setAccounts([]));
     } else {
@@ -34,7 +34,7 @@ const AddTransaction = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/banks")
+      .get("https://tesseractcreations-1.onrender.com/banks")
       .then((res) => setBanks(res.data))
       .catch(() => setBanks([]));
   }, []);
@@ -55,7 +55,7 @@ const AddTransaction = () => {
     };
 
     try {
-      await axios.post("http://localhost:5001/transactions", data);
+      await axios.post("https://tesseractcreations-1.onrender.com/transactions", data);
       alert("Transaction added successfully!");
       setSelectedType("");
       setAccounts([]);
